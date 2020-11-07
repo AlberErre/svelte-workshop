@@ -1,2 +1,2 @@
-# svelte-workshop
+# svelte-workshop 🍋
 Small workshop to learn svelte 👀🧪
