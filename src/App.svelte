@@ -10,6 +10,19 @@
 
   let form;
 
+  const BACKSPACE_KEYCODE = 8;
+
+  function handleKeydown(event) {
+    const previousInput = document.activeElement.previousElementSibling;
+
+    if (event.keyCode === BACKSPACE_KEYCODE) {
+      event.preventDefault();
+
+      event.target.value = "";
+      if (previousInput) previousInput.focus();
+    }
+  }
+
   function handleInput(event) {
     const nextInput = event.target.nextElementSibling;
 
@@ -63,6 +76,8 @@
     border-color: blue;
   }
 </style>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <form bind:this={form}>
   <div class="inputs">
