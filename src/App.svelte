@@ -7,6 +7,23 @@
   // 3. Pressing backspace should focus and select the contents of the previous input
   // 4. Pasting the code in the first input should paste each digit in the correct input
   // 5. Auto submit the form if all fields are filled after a paste
+
+  let form;
+
+  function handleInput(event) {
+    const nextInput = event.target.nextElementSibling;
+
+    if (!nextInput) {
+      form.submit();
+      return;
+    }
+
+    nextInput.focus();
+  }
+
+  function handleFocus(event) {
+    event.target.select();
+  }
 </script>
 
 <style>
@@ -47,14 +64,44 @@
   }
 </style>
 
-<form>
+<form this:bind={form}>
   <div class="inputs">
-    <input type="text" name="n1" maxlength="1" />
-    <input type="text" name="n2" maxlength="1" />
-    <input type="text" name="n3" maxlength="1" />
-    <input type="text" name="n4" maxlength="1" />
-    <input type="text" name="n5" maxlength="1" />
-    <input type="text" name="n6" maxlength="1" />
+    <input
+      type="text"
+      name="n1"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
+    <input
+      type="text"
+      name="n2"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
+    <input
+      type="text"
+      name="n3"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
+    <input
+      type="text"
+      name="n4"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
+    <input
+      type="text"
+      name="n5"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
+    <input
+      type="text"
+      name="n6"
+      maxlength="1"
+      on:input={handleInput}
+      on:focus={handleFocus} />
   </div>
   <button type="submit">Verify</button>
 </form>
