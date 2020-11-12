@@ -64,7 +64,7 @@
   }
 </style>
 
-<form this:bind={form}>
+<form bind:this={form}>
   <div class="inputs">
     <input
       type="text"
