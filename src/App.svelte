@@ -12,7 +12,7 @@
 
   const BACKSPACE_KEYCODE = 8;
 
-  function handleFormKeydown(event) {
+  const handleFormKeydown = (event) => {
     if (event.keyCode === BACKSPACE_KEYCODE) {
       event.preventDefault();
       event.target.value = "";
@@ -20,21 +20,21 @@
       const previousInput = document.activeElement.previousElementSibling;
       if (previousInput) previousInput.focus();
     }
-  }
+  };
 
-  function handleInput(event) {
+  const handleInput = (event) => {
     const nextInput = event.target.nextElementSibling;
 
     if (!nextInput) return;
 
     nextInput.focus();
-  }
+  };
 
-  function handleFocus(event) {
+  const handleFocus = (event) => {
     event.target.select();
-  }
+  };
 
-  function populateInputs(input, values) {
+  const populateInputs = (input, values) => {
     if (values.length === 0) return;
 
     input.value = values[0];
@@ -46,13 +46,13 @@
     }
 
     populateInputs(nextInput, values.slice(1));
-  }
+  };
 
-  function handlePaste(event) {
+  const handlePaste = (event) => {
     const nextInput = event.target.nextElementSibling;
     const pastedValues = event.clipboardData.getData("Text").split("");
     populateInputs(nextInput, pastedValues.slice(1));
-  }
+  };
 </script>
 
 <style>
