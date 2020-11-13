@@ -10,10 +10,8 @@
 
   let form;
 
-  const BACKSPACE_KEYCODE = 8;
-
   const handleFormKeydown = (event) => {
-    if (event.keyCode === BACKSPACE_KEYCODE) {
+    if (event.code === "Backspace") {
       event.preventDefault();
       event.target.value = "";
 
