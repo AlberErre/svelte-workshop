@@ -25,10 +25,7 @@
   function handleInput(event) {
     const nextInput = event.target.nextElementSibling;
 
-    if (!nextInput) {
-      form.submit();
-      return;
-    }
+    if (!nextInput) return;
 
     nextInput.focus();
   }
