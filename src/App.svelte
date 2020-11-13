@@ -53,6 +53,8 @@
     const pastedValues = event.clipboardData.getData("Text").split("");
     populateInputs(nextInput, pastedValues.slice(1));
   };
+
+  const inputs = ["n1", "n2", "n3", "n4", "n5", "n6"];
 </script>
 
 <style>
@@ -95,43 +97,16 @@
 
 <form bind:this={form} on:keydown={handleFormKeydown}>
   <div class="inputs">
-    <input
-      type="text"
-      name="n1"
-      maxlength="1"
-      on:paste={handlePaste}
-      on:input={handleInput}
-      on:focus={handleFocus} />
-    <input
-      type="text"
-      name="n2"
-      maxlength="1"
-      on:input={handleInput}
-      on:focus={handleFocus} />
-    <input
-      type="text"
-      name="n3"
-      maxlength="1"
-      on:input={handleInput}
-      on:focus={handleFocus} />
-    <input
-      type="text"
-      name="n4"
-      maxlength="1"
-      on:input={handleInput}
-      on:focus={handleFocus} />
-    <input
-      type="text"
-      name="n5"
-      maxlength="1"
-      on:input={handleInput}
-      on:focus={handleFocus} />
-    <input
-      type="text"
-      name="n6"
-      maxlength="1"
-      on:input={handleInput}
-      on:focus={handleFocus} />
+    {#each inputs as inputName, index}
+      <input
+        type="text"
+        name={inputName}
+        maxlength="1"
+        on:paste={index === 0 ? handlePaste : undefined}
+        on:input={handleInput}
+        on:focus={handleFocus} />
+    {/each}
   </div>
+
   <button type="submit">Verify</button>
 </form>
