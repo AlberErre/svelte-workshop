@@ -12,13 +12,12 @@
 
   const BACKSPACE_KEYCODE = 8;
 
-  function handleKeydown(event) {
-    const previousInput = document.activeElement.previousElementSibling;
-
+  function handleFormKeydown(event) {
     if (event.keyCode === BACKSPACE_KEYCODE) {
       event.preventDefault();
-
       event.target.value = "";
+
+      const previousInput = document.activeElement.previousElementSibling;
       if (previousInput) previousInput.focus();
     }
   }
@@ -36,6 +35,26 @@
 
   function handleFocus(event) {
     event.target.select();
+  }
+
+  function populateInputs(input, values) {
+    if (values.length === 0) return;
+
+    input.value = values[0];
+
+    const nextInput = input.nextElementSibling;
+    if (!nextInput) {
+      form.submit();
+      return;
+    }
+
+    populateInputs(nextInput, values.slice(1));
+  }
+
+  function handlePaste(event) {
+    const nextInput = event.target.nextElementSibling;
+    const pastedValues = event.clipboardData.getData("Text").split("");
+    populateInputs(nextInput, pastedValues.slice(1));
   }
 </script>
 
@@ -77,14 +96,13 @@
   }
 </style>
 
-<svelte:window on:keydown={handleKeydown} />
-
-<form bind:this={form}>
+<form bind:this={form} on:keydown={handleFormKeydown}>
   <div class="inputs">
     <input
       type="text"
       name="n1"
       maxlength="1"
+      on:paste={handlePaste}
       on:input={handleInput}
       on:focus={handleFocus} />
     <input
