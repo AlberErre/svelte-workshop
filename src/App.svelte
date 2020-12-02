@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   // Copy and paste this code into https://svelte.dev/repl
   //
   // Requirements:
@@ -8,103 +8,44 @@
   // 4. Pasting the code in the first input should paste each digit in the correct input
   // 5. Auto submit the form if all fields are filled after a paste
 
-  let form;
+  let typehead;
+  let activeOption;
 
-  const handleFormKeydown = (event) => {
-    if (event.code === "Backspace") {
-      event.preventDefault();
-      event.target.value = "";
+  let showList = false;
 
-      const previousInput = document.activeElement.previousElementSibling;
-      if (previousInput) previousInput.focus();
-    }
-  };
+  const countries = ["Spain", "France"];
 
-  const handleInput = (event) => {
-    const nextInput = event.target.nextElementSibling;
+  let text = "";
 
-    if (!nextInput) return;
-
-    nextInput.focus();
-  };
-
-  const handleFocus = (event) => {
-    event.target.select();
-  };
-
-  const populateInputs = (input, values) => {
-    if (values.length === 0) return;
-
-    input.value = values[0];
-
-    const nextInput = input.nextElementSibling;
-    if (!nextInput) {
-      form.submit();
-      return;
-    }
-
-    populateInputs(nextInput, values.slice(1));
-  };
-
-  const handlePaste = (event) => {
-    const nextInput = event.target.nextElementSibling;
-    const pastedValues = event.clipboardData.getData("Text").split("");
-    populateInputs(nextInput, pastedValues.slice(1));
-  };
-
-  const inputs = ["n1", "n2", "n3", "n4", "n5", "n6"];
+  $: filteredCountries = countries.filter(
+    (country) => text && country.toLowerCase().includes(text.toLowerCase())
+  );
 </script>
 
 <style>
   * {
     box-sizing: border-box;
   }
-  form {
-    border: 1px solid black;
-    padding: 20px;
-    width: 500px;
-  }
-  .inputs {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(6, 1fr);
-    margin-bottom: 10px;
-  }
-  .inputs > * {
-    border: 1px solid black;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    font-size: 20px;
-    line-height: 1;
-  }
-  button {
-    border: 1px solid black;
-    line-height: 1;
-    background: black;
-    color: white;
-    font-size: 20px;
-    padding: 20px;
-    width: 100%;
-    text-align: center;
-  }
-  button:focus {
-    border-color: blue;
-  }
 </style>
 
-<form bind:this={form} on:keydown={handleFormKeydown}>
-  <div class="inputs">
-    {#each inputs as inputName, index}
-      <input
-        type="text"
-        name={inputName}
-        maxlength="1"
-        on:paste={index === 0 ? handlePaste : undefined}
-        on:input={handleInput}
-        on:focus={handleFocus} />
-    {/each}
-  </div>
+<div
+  bind:this={typehead}
+  class="typehead"
+  role="combobox"
+  aria-haspopup
+  aria-owns="countryList"
+  aria-expanded={showList}>
+  <input
+    bind:value={text}
+    type="text"
+    name="Country"
+    aria-autocomplete="list"
+    aria-controls="countryList"
+    aria-activedescendant={activeOption} />
 
-  <button type="submit">Verify</button>
-</form>
+  <ul id="countryList" aria-labelledby="countryList" role="listbox">
+    {#each filteredCountries as country, i}
+      <li role="option" aria-selected="false">{country}</li>
+    {/each}
+  </ul>
+</div>
