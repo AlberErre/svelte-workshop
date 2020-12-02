@@ -8,12 +8,12 @@
   // 4. Pasting the code in the first input should paste each digit in the correct input
   // 5. Auto submit the form if all fields are filled after a paste
 
-  let typehead;
-  let activeOption;
+  import { countries } from "./countries";
+
+  let typehead: HTMLInputElement;
+  let activeOptionIndex: number;
 
   let showList = false;
-
-  const countries = ["Spain", "France"];
 
   let text = "";
 
@@ -41,7 +41,7 @@
     name="Country"
     aria-autocomplete="list"
     aria-controls="countryList"
-    aria-activedescendant={activeOption} />
+    aria-activedescendant={activeOptionIndex} />
 
   <ul id="countryList" aria-labelledby="countryList" role="listbox">
     {#each filteredCountries as country, i}
